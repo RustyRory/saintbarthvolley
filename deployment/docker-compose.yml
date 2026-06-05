@@ -1,6 +1,7 @@
 services:
   sbv-front:
     image: sbv-front:latest
+    container_name: sbv-front
     build:
       context: ../saintBarthVolleyApp/frontend
       dockerfile: Dockerfile
@@ -13,11 +14,10 @@ services:
       - "127.0.0.1:3001:3000"
     depends_on:
       - sbv-api
-    networks:
-      - sbv-net
 
   sbv-api:
     image: sbv-api:latest
+    container_name: sbv-api
     build:
       context: ../saintBarthVolleyApp/backend
       dockerfile: Dockerfile
@@ -26,8 +26,3 @@ services:
     environment:
       NODE_ENV: production
       PORT: "5000"
-    networks:
-      - sbv-net
-
-networks:
-  sbv-net:
