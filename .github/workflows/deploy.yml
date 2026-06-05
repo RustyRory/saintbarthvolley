@@ -1,4 +1,4 @@
-name: 'Deploy to VPS'
+name: Deploy to VPS
 
 on:
   push:
@@ -7,64 +7,14 @@ on:
 
 jobs:
   deploy:
-    name: 'Déploiement SaintBarth Volley'
+    name: Déploiement SaintBarth Volley
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Checkout code'
-        uses: actions/checkout@v4
-
-      - name: 'Deploy via SSH'
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          command_timeout: 30m
-          script: |
-            set -e
-            echo "🚀 Déploiement SaintBarth Volley"
-
-            REPO_DIR="/var/www/SaintBarthVolley"
-            COMPOSE_FILE="/var/www/docker-compose.yml"
-
-            # ── Cloner ou mettre à jour le repo ──────────────────────────
-            if [ ! -d "$REPO_DIR/.git" ]; then
-              echo "📥 Premier déploiement — clonage du repo..."
-              git clone https://github.com/${{ github.repository }}.git "$REPO_DIR"
-            else
-              echo "🔄 Mise à jour du code..."
-              git -C "$REPO_DIR" fetch origin main
-              git -C "$REPO_DIR" reset --hard origin/main
-            fi
-            echo "✅ Code à jour"
-
-            # ── Vérifier que le .env backend existe ───────────────────────
-            ENV_FILE="$REPO_DIR/saintBarthVolleyApp/backend/.env"
-            if [ ! -f "$ENV_FILE" ]; then
-              echo "❌ Fichier .env manquant : $ENV_FILE"
-              echo "   Créez-le depuis .env.example avant de déployer."
-              exit 1
-            fi
-            echo "✅ Fichier .env backend trouvé"
-
-            # ── Rebuild et restart uniquement les services SaintBarth ─────
-            echo "🔨 Build des images..."
-            docker-compose -f "$COMPOSE_FILE" build sbv-api sbv-front
-
-            echo "🔄 Redémarrage des containers..."
-            docker-compose -f "$COMPOSE_FILE" up -d --remove-orphans sbv-api sbv-front
-
-            echo "✅ Containers démarrés"
-
-            # ── Nettoyage des images obsolètes ────────────────────────────
-            docker image prune -f
-
-            # ── Vérification finale ───────────────────────────────────────
-            echo ""
-            echo "📊 État des containers SaintBarth :"
-            docker ps --filter "name=sbv-" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-
-            echo ""
-            echo "🎉 Déploiement terminé !"
+      - name: Trigger deploy via vps-monitor
+        run: |
+          curl -f -s -X POST "${{ secrets.VPS_MONITOR_URL }}/api/webhook/deploy" \
+            -H "Authorization: Bearer ${{ secrets.WEBHOOK_SECRET }}" \
+            -H "Content-Type: application/json" \
+            -d '{"name": "sbv"}' \
+            | grep -q '"ok":true' || { echo "Échec déploiement vps-monitor"; exit 1; }

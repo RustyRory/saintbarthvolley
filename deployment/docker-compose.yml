@@ -1,0 +1,26 @@
+services:
+  sbv-front:
+    image: sbv-front:latest
+    build:
+      context: ../saintBarthVolleyApp/frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_BASE_PATH: /saintbarthvolley
+        NEXT_PUBLIC_API_URL: /saintbarthvolley
+        BACKEND_URL: http://sbv-api:5000
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3000"
+    depends_on:
+      - sbv-api
+
+  sbv-api:
+    image: sbv-api:latest
+    build:
+      context: ../saintBarthVolleyApp/backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "5000"
