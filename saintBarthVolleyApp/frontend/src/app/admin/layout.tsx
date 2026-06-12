@@ -22,7 +22,7 @@ export default function AdminLayout({
     authApi
       .me()
       .then((user) => {
-        if (user.role === "admin") {
+        if (user.role === "admin" || user.role === "editor") {
           setIsAllowed(true);
         } else {
           router.replace("/");

@@ -32,9 +32,9 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      await authApi.login(email, password);
-      // 🔥 replace = évite retour arrière vers login
-      router.replace("/admin");
+      const user = await authApi.login(email, password);
+      const dest = user.role === "admin" || user.role === "editor" ? "/admin" : "/";
+      router.replace(dest);
       router.refresh();
     } catch (err: any) {
       // Si backend renvoie un message spécifique, on l'affiche
