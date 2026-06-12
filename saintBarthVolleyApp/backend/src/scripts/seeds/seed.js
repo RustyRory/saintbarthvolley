@@ -9,11 +9,11 @@ const clubData = {
   name: 'Saint Barthélémy Volley-Ball',
   subtitle: 'Passion, Performance, Partage',
   homeDescription:
-    'Bienvenue sur le site officiel du Saint Barthélémy Volley-Ball, le club où la passion du volley rencontre l'esprit d'équipe et la convivialité.',
+    "Bienvenue sur le site officiel du Saint Barthélémy Volley-Ball, le club où la passion du volley rencontre l'esprit d'équipe et la convivialité.",
   clubDescription:
-    'Le club propose des entraînements pour tous les niveaux, des jeunes aux seniors, dans un esprit de partage et de progression.',
+    "Le club propose des entraînements pour tous les niveaux, des jeunes aux seniors, dans un esprit de partage et de progression.",
   ownerDescription:
-    'Notre équipe dirigeante est composée de bénévoles passionnés, engagés pour le développement du volley-ball à Saint-Barthélémy.',
+    "Notre équipe dirigeante est composée de bénévoles passionnés, engagés pour le développement du volley-ball à Saint-Barthélémy.",
   logo: '/assets/images/default_logo.png',
   photo: '/assets/images/default_club_photo.png',
   email: 'contact@saintbarthvolley.fr',
