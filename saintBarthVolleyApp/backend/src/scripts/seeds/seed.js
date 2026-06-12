@@ -43,6 +43,10 @@ const clubData = {
 };
 
 const seedAdmin = async () => {
+  if (!process.env.ADMIN_EMAIL || !process.env.ADMIN_PASSWORD) {
+    throw new Error('ADMIN_EMAIL et ADMIN_PASSWORD doivent être définis dans le .env');
+  }
+
   const existing = await User.findOne({ role: 'admin' });
   if (existing) {
     console.log('⚠️  Admin déjà existant :', existing.email);

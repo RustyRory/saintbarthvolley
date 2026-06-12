@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { authApi } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,9 +45,9 @@ export default function ForgotPasswordPage() {
             <CardDescription>{message}</CardDescription>
           </CardHeader>
           <CardContent>
-            <a href="/login" className="text-sm underline underline-offset-4">
+            <Link href="/login" className="text-sm underline underline-offset-4">
               Retour à la connexion
-            </a>
+            </Link>
           </CardContent>
         </Card>
       </div>
@@ -88,12 +89,12 @@ export default function ForgotPasswordPage() {
                 {loading ? "Envoi..." : "Envoyer le lien"}
               </Button>
 
-              <a
+              <Link
                 href="/login"
                 className="text-center text-sm text-muted-foreground underline underline-offset-4"
               >
                 Retour à la connexion
-              </a>
+              </Link>
             </form>
           </CardContent>
         </Card>
