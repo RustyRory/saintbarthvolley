@@ -102,7 +102,7 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ message: 'Connecté avec succès' });
+    res.status(200).json({ message: 'Connecté avec succès', role: user.role });
   } catch (err) {
     console.error('LOGIN ERROR:', err);
     res.status(500).json({ message: 'Erreur serveur' });

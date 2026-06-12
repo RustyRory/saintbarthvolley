@@ -16,7 +16,7 @@ export interface AuthUser {
 
 export const authApi = {
   login: (email: string, password: string) =>
-    apiFetch<AuthUser>("/api/auth/login", {
+    apiFetch<{ message: string; role: AuthUser["role"] }>("/api/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     }),
